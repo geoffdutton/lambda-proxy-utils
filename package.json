@@ -15,8 +15,6 @@
   "scripts": {
     "build": "gulp build",
     "lint": "eslint .",
-    "start": "node dist/app.js",
-    "travis": "(npm start &)",
     "test": "nyc --report lcovonly --require babel-core/register mocha --colors --reporter spec --recursive test/"
   },
   "dependencies": {
