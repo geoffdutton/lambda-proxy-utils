@@ -25,6 +25,7 @@
     "lodash.tostring": "^4.1.4",
     "lodash.transform": "^4.6.0",
     "mime": "^1.3.4",
+    "type-is": "^1.6.14",
     "url-parse": "^1.1.7"
   },
   "devDependencies": {
