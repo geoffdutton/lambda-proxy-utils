@@ -1,5 +1,5 @@
 {
-  "name": "node-backend-boilerplate",
+  "name": "lambda-proxy-utils",
   "version": "1.0.0",
   "description": "Lambda Proxy event helpers",
   "private": false,
