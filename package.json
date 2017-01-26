@@ -13,7 +13,7 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "build": "gulp build",
+    "build": "npm test && gulp build",
     "lint": "eslint .",
     "test": "nyc --report lcovonly --require babel-core/register mocha --colors --reporter spec --recursive test/"
   },
