@@ -1,0 +1,54 @@
+{
+  "name": "node-backend-boilerplate",
+  "version": "1.0.0",
+  "description": "Lambda Proxy event helpers",
+  "private": false,
+  "engines": {
+    "node": ">=4"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geoffdutton/lambda-proxy-utils"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "gulp build",
+    "lint": "eslint .",
+    "start": "node dist/app.js",
+    "travis": "(npm start &)",
+    "test": "nyc --report lcovonly --require babel-core/register mocha --colors --reporter spec --recursive test/"
+  },
+  "dependencies": {
+    "cookie": "^0.3.1",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.has": "^4.5.2",
+    "lodash.tostring": "^4.1.4",
+    "lodash.transform": "^4.6.0",
+    "mime": "^1.3.4",
+    "url-parse": "^1.1.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-es2015-destructuring": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "chai": "^3.5.0",
+    "codacy-coverage": "^2.0.1",
+    "del": "^2.2.2",
+    "eslint": "^3.14.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-eslint": "^3.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "nyc": "^10.1.2"
+  }
+}
