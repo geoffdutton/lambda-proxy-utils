@@ -1,6 +1,6 @@
 {
   "name": "lambda-proxy-utils",
-  "version": "1.1.1",
+  "version": "1.1.0",
   "description": "Lambda Proxy event helpers",
   "author": "Geoff Dutton <g.dutton@gmail.com>",
   "keywords": [
