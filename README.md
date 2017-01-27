@@ -127,6 +127,36 @@ module.exports.lambdaHandler = funciton(event, context, callback) {
       body: '{ "some": "object" }'
     }
    */
+   
+  // Add a cookie
+  const res = new Response()
+  res.cookie('cookie', 'monster')
+  callback(null, res.send({ some: 'object' }))
+  /*
+    {
+      statusCode: 200,
+      headers: {
+          'Content-Type': 'application/json',
+          'Set-Cookie': 'cookie=monster; Path=/'
+      },
+      body: '{ "some": "object" }'
+    }
+  */
+  
+  // Add a header
+  const res = new Response()
+  res.set('X-Random-Header', 1)
+  callback(null, res.send({ some: 'object' }))
+  /*
+    {
+      statusCode: 200,
+      headers: {
+          'Content-Type': 'application/json',
+          'X-Random-Header': '1'
+      },
+      body: '{ "some": "object" }'
+    }
+  */
 }
 ```
 
