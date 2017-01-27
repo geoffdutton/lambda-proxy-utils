@@ -6,6 +6,7 @@ const typeis = require('type-is').is
 const urlParse = require('url-parse')
 const _toString = require('lodash.tostring')
 const cookie = require('cookie')
+const accepts = require('accepts')
 
 /**
  * Turns a lambda proxy event into an express.js-like
@@ -104,7 +105,7 @@ class Request {
    * @param {string} field
    */
   get (field) {
-    let val = this.query[field] || this.cookies[field]
+    const val = this.query[field] || this.cookies[field]
     if (typeof val !== 'undefined') {
       return val
     }
@@ -165,6 +166,55 @@ class Request {
    */
   is (type) {
     return !!typeis(this.headers['content-type'], type)
+  }
+
+  /**
+   * Check if the given `type(s)` is acceptable, returning
+   * the best match when true, otherwise `undefined`, in which
+   * case you should respond with 406 "Not Acceptable".
+   *
+   * The `type` value may be a single MIME type string
+   * such as "application/json", an extension name
+   * such as "json", a comma-delimited list such as "json, html, text/plain",
+   * an argument list such as `"json", "html", "text/plain"`,
+   * or an array `["json", "html", "text/plain"]`. When a list
+   * or array is given, the _best_ match, if any is returned.
+   *
+   * Examples:
+   *
+   *     // Accept: text/html
+   *     req.accepts('html');
+   *     // => "html"
+   *
+   *     // Accept: text/*, application/json
+   *     req.accepts('html');
+   *     // => "html"
+   *     req.accepts('text/html');
+   *     // => "text/html"
+   *     req.accepts('json, text');
+   *     // => "json"
+   *     req.accepts('application/json');
+   *     // => "application/json"
+   *
+   *     // Accept: text/*, application/json
+   *     req.accepts('image/png');
+   *     req.accepts('png');
+   *     // => undefined
+   *
+   *     // Accept: text/*;q=.5, application/json
+   *     req.accepts(['html', 'json']);
+   *     req.accepts('html', 'json');
+   *     req.accepts('html, json');
+   *     // => "json"
+   *
+   * @param {String|Array} type(s)
+   * @return {String|Array|Boolean}
+   * @public
+   */
+
+  accepts () {
+    const accept = accepts(this)
+    return accept.types.apply(accept, arguments)
   }
 
   /**

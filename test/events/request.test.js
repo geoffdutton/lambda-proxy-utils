@@ -212,5 +212,53 @@ describe('events', () => {
         expect(Request.valueFilter('SomeThing')).to.eq('SomeThing')
       })
     })
+
+    describe('#accepts', () => {
+      context('single type', () => {
+        it('should return type when Accept is not present', () => {
+          lambdaEvent.headers.Accept = undefined
+          const req = new Request(lambdaEvent)
+          expect(req.accepts('html')).to.eq('html')
+        })
+
+        it('should return type when Accept is present and match', () => {
+          lambdaEvent.headers.Accept = 'image/webp,image/*'
+          const req = new Request(lambdaEvent)
+          expect(req.accepts('gif')).to.eq('gif')
+        })
+
+        it('should return false when Accept is present but not a match', () => {
+          lambdaEvent.headers.Accept = 'image/webp,image/*'
+          const req = new Request(lambdaEvent)
+          expect(req.accepts('json')).to.be.false
+        })
+      })
+
+      context('list of types', () => {
+        it('should return first when Accept is not present', () => {
+          lambdaEvent.headers.Accept = undefined
+          const req = new Request(lambdaEvent)
+          expect(req.accepts('json', 'image')).to.eq('json')
+        })
+
+        it('should return false when Accept is present but no a match', () => {
+          lambdaEvent.headers.Accept = 'image/webp,image/*'
+          const req = new Request(lambdaEvent)
+          expect(req.accepts('json', 'html')).to.be.false
+        })
+
+        it('should recognize q value', () => {
+          lambdaEvent.headers.Accept = '*/html; q=.5, application/json'
+          const req = new Request(lambdaEvent)
+          expect(req.accepts(['text/html', 'application/json'])).to.eq('application/json')
+        })
+
+        it('should return the first acceptable type', () => {
+          lambdaEvent.headers.Accept = 'image/webp,image/*,*/*;q=0.8'
+          const req = new Request(lambdaEvent)
+          expect(req.accepts(['application/json', 'image/*'])).to.eq('image/*')
+        })
+      })
+    })
   })
 })
