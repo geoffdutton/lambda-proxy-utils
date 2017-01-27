@@ -1,6 +1,6 @@
 'use strict'
-import { expect } from 'chai'
-import Response from '../../src/events/response'
+const expect = require('chai').expect
+const Response = require('../../src/events/response')
 
 describe('events', () => {
   describe('Response', () => {
@@ -146,6 +146,18 @@ describe('events', () => {
           statusCode: 200,
           headers: {},
           body: 'blah',
+        })
+      })
+
+      it('should add isBase64Encoded if true', () => {
+        const res = new Response({
+          isBase64Encoded: true,
+        })
+        expect(res.send('blah')).to.eql({
+          statusCode: 200,
+          headers: {},
+          body: 'blah',
+          isBase64Encoded: true,
         })
       })
     })

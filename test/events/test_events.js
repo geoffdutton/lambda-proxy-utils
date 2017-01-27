@@ -1,8 +1,8 @@
 'use strict'
 /* eslint-disable */
-import cloneDeep from 'lodash.clonedeep'
+const cloneDeep = require('lodash.clonedeep')
 
-export const _GET = {
+module.exports._GET = {
   "resource": "/api/pipe/{pathParam}",
   "path": "/api/pipe/hooray/",
   "httpMethod": "GET",
@@ -62,4 +62,4 @@ export const _GET = {
   "isBase64Encoded": false
 }
 
-export const GET = () => cloneDeep(_GET)
+module.exports.GET = () => cloneDeep(module.exports._GET)

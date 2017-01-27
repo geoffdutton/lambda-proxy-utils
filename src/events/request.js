@@ -1,37 +1,11 @@
 'use strict'
-import _get from 'lodash.get'
-import _transform from 'lodash.transform'
-import _has from 'lodash.has'
-import _toString from 'lodash.tostring'
-import cookie from 'cookie'
-import urlParse from 'url-parse'
-import { is as typeis } from 'type-is'
-
-/**
- * Converts 'null' to null, 'false' to false, etc
- * @param (val) val
- */
-const valueFilter = (val) => {
-  if (typeof val !== 'string') {
-    return val
-  }
-
-  val = val.toLowerCase()
-
-  if (val === 'true') {
-    return true
-  }
-
-  if (val === 'false') {
-    return false
-  }
-
-  if (val === 'null') {
-    return null
-  }
-
-  return val
-}
+const _get = require('lodash.get')
+const _transform = require('lodash.transform')
+const _has = require('lodash.has')
+const typeis = require('type-is').is
+const urlParse = require('url-parse')
+const _toString = require('lodash.tostring')
+const cookie = require('cookie')
 
 /**
  * Turns a lambda proxy event into an express.js-like
@@ -42,7 +16,7 @@ const valueFilter = (val) => {
  * @module lambda-proxy-utils
  * @class Request
  */
-export default class Request {
+class Request {
   /**
    * @param {object} rawLambdaEvent -- The event passed to the lambda function
    * with lambda-proxy type integration
@@ -138,6 +112,36 @@ export default class Request {
   }
 
   /**
+   * Returns query param value filtered for 'null', 'false', true', etc
+   *
+   * Returns undefined if nothing is found.
+   * @param {string} param
+   */
+  getQueryParam (param) {
+    return Request.valueFilter(this.query[param])
+  }
+
+  /**
+   * Returns the cookie value, case-insensitive
+   *
+   * Returns undefined if nothing is found.
+   * @param {string} name
+   */
+  getCookie (name) {
+    return this.cookies[name.toLowerCase()]
+  }
+
+  /**
+   * Returns the header value, case-insensitive
+   *
+   * Returns undefined if nothing is found.
+   * @param {string} field
+   */
+  getHeader (field) {
+    return this.headers[field.toLowerCase()]
+  }
+
+  /**
    * Returns true if the incoming request’s “Content-Type” HTTP header field matches the MIME type
    * specified by the type parameter. Returns false otherwise.
    *
@@ -186,7 +190,7 @@ export default class Request {
    */
   static parseCookies (cookieString) {
     return _transform(cookie.parse(_toString(cookieString)), (result, val, key) => {
-      result[key.toLowerCase()] = valueFilter(val)
+      result[key.toLowerCase()] = Request.valueFilter(val)
     }) || {}
   }
 
@@ -208,4 +212,32 @@ export default class Request {
     }
     return body
   }
+
+  /**
+   * Converts 'null' to null, 'false' to false, etc
+   * @param (val) val
+   */
+  static valueFilter (val) {
+    if (typeof val !== 'string') {
+      return val
+    }
+
+    const testVal = val.toLowerCase()
+
+    if (testVal === 'true') {
+      return true
+    }
+
+    if (testVal === 'false') {
+      return false
+    }
+
+    if (testVal === 'null') {
+      return null
+    }
+
+    return val
+  }
 }
+
+module.exports = Request

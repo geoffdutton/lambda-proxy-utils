@@ -1,8 +1,8 @@
 'use strict'
-import { expect } from 'chai'
-import { GET } from './test_events'
-import Request from '../../src/events/request'
-import urlParse from 'url-parse'
+const expect = require('chai').expect
+const Request = require('../../src/events/request')
+const GET = require('./test_events').GET
+const urlParse = require('url-parse')
 
 describe('events', () => {
   describe('Request', () => {
@@ -134,6 +134,55 @@ describe('events', () => {
       })
     })
 
+    describe('#getCookie', () => {
+      it('should return undefined', () => {
+        const req = new Request(lambdaEvent)
+        expect(req.getCookie('nothing_That_exists')).to.be.undefined
+      })
+
+      it('should be case-insensitive', () => {
+        lambdaEvent.headers.Cookie = 'Find=me2'
+        const req = new Request(lambdaEvent)
+        expect(req.getCookie('fInd')).to.eq('me2')
+      })
+    })
+
+    describe('#getHeader', () => {
+      it('should return undefined', () => {
+        const req = new Request(lambdaEvent)
+        expect(req.getHeader('nothing_That_exists')).to.be.undefined
+      })
+
+      it('should be case-insensitive', () => {
+        lambdaEvent.headers['Find'] = 'me2'
+        const req = new Request(lambdaEvent)
+        expect(req.getHeader('fInd')).to.eq('me2')
+      })
+    })
+
+    describe('#getQueryParam', () => {
+      it('should return undefined', () => {
+        const req = new Request(lambdaEvent)
+        expect(req.getQueryParam('nothing_That_exists')).to.be.undefined
+      })
+
+      it('should parse bools', () => {
+        lambdaEvent.queryStringParameters['success'] = 'true'
+        let req = new Request(lambdaEvent)
+        expect(req.getQueryParam('success')).to.be.true
+
+        lambdaEvent.queryStringParameters['success'] = 'false'
+        req = new Request(lambdaEvent)
+        expect(req.getQueryParam('success')).to.be.false
+      })
+
+      it('should parse null', () => {
+        lambdaEvent.queryStringParameters['success'] = 'null'
+        const req = new Request(lambdaEvent)
+        expect(req.getQueryParam('success')).to.be.null
+      })
+    })
+
     describe('#is', () => {
       it('should match partial', () => {
         lambdaEvent.headers['Content-Type'] = 'text/html; charset=utf-8'
@@ -155,6 +204,12 @@ describe('events', () => {
         lambdaEvent.headers['Find'] = 'me3'
         const req = new Request(lambdaEvent)
         expect(req.get('find')).to.eq('me3')
+      })
+    })
+
+    describe('#valueFilter', () => {
+      it('should not lowercase the value', () => {
+        expect(Request.valueFilter('SomeThing')).to.eq('SomeThing')
       })
     })
   })

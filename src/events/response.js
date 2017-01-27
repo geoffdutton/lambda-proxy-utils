@@ -1,7 +1,7 @@
 'use strict'
-import _toString from 'lodash.tostring'
-import cookie from 'cookie'
-import mime from 'mime'
+const _toString = require('lodash.tostring')
+const cookie = require('cookie')
+const mime = require('mime')
 
 const corsHeader =  {
   'Access-Control-Allow-Origin': '*',
@@ -17,7 +17,7 @@ const corsHeader =  {
  * @module lambda-proxy-utils
  * @class Response
  */
-export default class Response {
+class Response {
   /**
    * Options = {
    *  statusCode: 200
@@ -70,6 +70,11 @@ export default class Response {
     if (this.cors) {
       this.set(corsHeader)
     }
+
+    /**
+     * @type {boolean}
+     */
+    this.isBase64Encoded = !!opts.isBase64Encoded
   }
 
   /**
@@ -92,11 +97,16 @@ export default class Response {
    * @returns {object}
    */
   send (body) {
-    return {
+    const res = {
       statusCode: this.statusCode,
       headers: this.headers,
       body: body || this.body,
     }
+
+    if (this.isBase64Encoded) {
+      res.isBase64Encoded = true
+    }
+    return res
   }
 
   /**
@@ -180,7 +190,7 @@ export default class Response {
    * Aliased as `res.header()`.
    *
    * @param {String|Object} field
-   * @param {String|Array} val
+   * @param {String|Array} [val]
    * @return {Response} for chaining
    * @public
    */
@@ -192,8 +202,7 @@ export default class Response {
 
       this.headers[field] = value
       this._headers[field.toLowerCase()] = value
-    }
-    else {
+    } else {
       for (const key in field) {
         this.set(key, field[key])
       }
@@ -265,3 +274,5 @@ export default class Response {
     return this.set('Content-Type', ct)
   }
 }
+
+module.exports = Response
