@@ -1,5 +1,7 @@
 # lambda-proxy-utils
+[![npm version](https://badge.fury.io/js/lambda-proxy-utils.svg)](https://badge.fury.io/js/lambda-proxy-utils)
 [![Build Status](https://travis-ci.org/geoffdutton/lambda-proxy-utils.svg?branch=master)](https://travis-ci.org/geoffdutton/lambda-proxy-utils)
+[![Coverage Status](https://coveralls.io/repos/github/geoffdutton/lambda-proxy-utils/badge.svg?branch=master)](https://coveralls.io/github/geoffdutton/lambda-proxy-utils?branch=master)
 
 Lambda event helpers for AWS API Gateway lambda-proxy integration
 

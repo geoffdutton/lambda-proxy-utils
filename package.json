@@ -20,8 +20,9 @@
   "homepage": "https://github.com/geoffdutton/lambda-proxy-utils",
   "main": "./src/index.js",
   "scripts": {
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint .",
-    "test": "eslint . && nyc --report lcovonly mocha --colors --reporter spec --recursive test/",
+    "test": "istanbul cover _mocha --report lcovonly -- --colors --reporter spec --recursive test/",
     "publish-please": "publish-please",
     "prepublish": "publish-please guard"
   },
@@ -39,6 +40,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "codacy-coverage": "^2.0.1",
+    "codecov": "^1.0.1",
+    "coveralls": "^2.11.15",
     "eslint": "^3.14.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-mocha": "^4.8.0",
@@ -46,7 +49,6 @@
     "eslint-plugin-standard": "^2.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "nyc": "^10.1.2",
     "publish-please": "^2.2.0"
   },
   "files": [
