@@ -2,6 +2,7 @@
 [![npm version](https://badge.fury.io/js/lambda-proxy-utils.svg)](https://badge.fury.io/js/lambda-proxy-utils)
 [![Build Status](https://travis-ci.org/geoffdutton/lambda-proxy-utils.svg?branch=master)](https://travis-ci.org/geoffdutton/lambda-proxy-utils)
 [![Coverage Status](https://coveralls.io/repos/github/geoffdutton/lambda-proxy-utils/badge.svg?branch=master)](https://coveralls.io/github/geoffdutton/lambda-proxy-utils?branch=master)
+[![Dependency Status](https://david-dm.org/geoffdutton/lambda-proxy-utils.svg)](https://david-dm.org/geoffdutton/lambda-proxy-utils/)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Lambda event helpers for AWS API Gateway lambda-proxy integration
@@ -101,13 +102,31 @@ const Response = require('lambda-proxy-utils').Response
 
 module.exports.lambdaHandler = funciton(event, context, callback) {
   const res = new Response()
-  res.type('json')
-  res.body = JSON.stringify({ some: 'object' })
-  callback(null, res.send()) // { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: '{ "some": "object" }' }
+  // stringifies objects and set correct content type header
+  callback(null, res.send({ some: 'object' }))
+   /*
+    {
+      statusCode: 200,
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: '{ "some": "object" }'
+    }
+   */
   
   // Support for CORS
   const res = new Response({ cors: true })
-  callback(null, res.json({ some: 'object' })) // { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: '{ "some": "object" }' }
+  callback(null, res.send({ some: 'object' }))
+  /*
+    {
+      statusCode: 200,
+      headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      },
+      body: '{ "some": "object" }'
+    }
+   */
 }
 ```
 
