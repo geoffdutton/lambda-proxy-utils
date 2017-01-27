@@ -82,25 +82,50 @@ class Response {
    *
    * Examples:
    *
-   *     res.send(new Buffer('wahoo'));
    *     res.send({ some: 'json' });
-   *     res.send('<p>some html</p>');
+   *     res.send('some text');
    *
    *     returns and object like:
    *      {
    *        statusCode: 200,
-   *        headers: { 'Content-Type': 'text/html' }
-   *        body: '<html>some html</html>
+   *        headers: {
+   *          'Content-Type': 'text/plain' ,
+   *          'Content-Length': '9'
+   *        },
+   *        body: 'some text'
    *     }
    *
-   * @param {string|number|boolean|object|Buffer} [body]
+   * @param {string|number|boolean|object} [body]
    * @returns {object}
    */
   send (body) {
+    body = typeof body === 'undefined' ? this.body : body
+
+    switch (typeof body) {
+      // string defaulting to plain text
+      case 'string':
+        if (!this.get('Content-Type')) {
+          this.contentType('text')
+        }
+        break
+      case 'boolean':
+      case 'number':
+      case 'object':
+        if (body === null) {
+          body = ''
+          if (!this.get('Content-Type')) {
+            this.contentType('text')
+          }
+        } else {
+          return this.json(body)
+        }
+        break
+    }
+
     const res = {
       statusCode: this.statusCode,
       headers: this.headers,
-      body: body || this.body,
+      body: body,
     }
 
     if (this.isBase64Encoded) {
@@ -149,7 +174,7 @@ class Response {
   cookie (name, value, options) {
     const opts = options || {}
 
-    let val = typeof value === 'object'
+    const val = typeof value === 'object'
       ? `j:${JSON.stringify(value)}`
       : _toString(value)
 

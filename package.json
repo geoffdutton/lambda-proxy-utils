@@ -21,6 +21,7 @@
   "main": "./src/index.js",
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "coverage": "rm -rf ./coverage && istanbul cover _mocha -- --colors --reporter spec --recursive test/",
     "lint": "eslint .",
     "test": "istanbul cover _mocha --report lcovonly -- --colors --reporter spec --recursive test/",
     "publish-please": "publish-please",

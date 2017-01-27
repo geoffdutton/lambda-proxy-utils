@@ -144,20 +144,84 @@ describe('events', () => {
         const res = new Response()
         expect(res.send('blah')).to.eql({
           statusCode: 200,
-          headers: {},
+          headers: { 'Content-Type': 'text/plain' },
+          body: 'blah',
+        })
+      })
+
+      it('should not overwrite content type if set', () => {
+        const res = new Response()
+        res.contentType('html')
+        expect(res.send('blah')).to.eql({
+          statusCode: 200,
+          headers: { 'Content-Type': 'text/html' },
           body: 'blah',
         })
       })
 
       it('should add isBase64Encoded if true', () => {
+        const base64EmptyGif = 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
         const res = new Response({
+          headers: {
+            'Content-Type': 'image/gif',
+          },
           isBase64Encoded: true,
         })
-        expect(res.send('blah')).to.eql({
+        expect(res.send(base64EmptyGif)).to.eql({
           statusCode: 200,
-          headers: {},
-          body: 'blah',
+          headers: {
+            'Content-Type': 'image/gif',
+          },
+          body: base64EmptyGif,
           isBase64Encoded: true,
+        })
+      })
+
+      context('passing an object', () => {
+        it('should return empty string if undefined', () => {
+          const res = new Response()
+          expect(res.send()).to.eql({
+            statusCode: 200,
+            headers: { 'Content-Type': 'text/plain' },
+            body: '',
+          })
+        })
+
+        // @TODO: Is this necessary??
+        it('should return empty string if null', () => {
+          const res = new Response()
+          expect(res.send(null)).to.eql({
+            statusCode: 200,
+            headers: { 'Content-Type': 'text/plain' },
+            body: '',
+          })
+        })
+
+        it('should stringify if boolean', () => {
+          const res = new Response()
+          expect(res.send(false)).to.eql({
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(false),
+          })
+        })
+
+        it('should stringify if number', () => {
+          const res = new Response()
+          expect(res.send(6000)).to.eql({
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(6000),
+          })
+        })
+
+        it('should stringify and set content type', () => {
+          const res = new Response()
+          expect(res.send({ some: 'object' })).to.eql({
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ some: 'object' }),
+          })
         })
       })
     })

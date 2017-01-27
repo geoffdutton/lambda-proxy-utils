@@ -18,6 +18,7 @@
     "max-len": ["error", 120],
     "mocha/no-exclusive-tests": "error",
     "mocha/no-skipped-tests": "error",
-    "mocha/no-pending-tests": "error"
+    "mocha/no-pending-tests": "error",
+    "prefer-const": ["error"]
   }
 }
