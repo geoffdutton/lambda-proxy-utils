@@ -13,7 +13,7 @@ npm install --save lambda-proxy-utils
 
 ## Request
 Takes an [API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-set-up-lambda-proxy-integration-on-proxy-resource) lambda proxy integration event and returns an object that is similar to an express.js Request object.
-```
+```javascript
 // Example API Gateway proxy integration event passed to lambda
 {
   "resource": "/api/pipe/{pathParam}",
@@ -96,7 +96,7 @@ module.exports.lambdaHandler = funciton(event, context, callback) {
 
 ## Response
 Creates an express.js-like Response object, and outputs the API Gateway [response format](http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-simple-proxy-for-lambda-output-format)
-```
+```javascript
 const Response = require('lambda-proxy-utils').Response
 
 module.exports.lambdaHandler = funciton(event, context, callback) {
@@ -110,3 +110,9 @@ module.exports.lambdaHandler = funciton(event, context, callback) {
   callback(null, res.json({ some: 'object' })) // { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: '{ "some": "object" }' }
 }
 ```
+
+## Contributing
+I'd happily welcome pull requests. I've chosen to use Standard as the style with a few slight modifications. I'd like to keep the code coverage as high as possible.
+
+## Credits
+I borrowed a lot from (express)[https://github.com/expressjs/express]
