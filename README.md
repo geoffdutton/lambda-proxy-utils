@@ -134,4 +134,4 @@ module.exports.lambdaHandler = funciton(event, context, callback) {
 I'd happily welcome pull requests. I've chosen to use Standard as the style with a few slight modifications. I'd like to keep the code coverage as high as possible.
 
 ## Credits
-I borrowed a lot from (express)[https://github.com/expressjs/express]
+I borrowed a lot from [express](https://github.com/expressjs/express)
