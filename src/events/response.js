@@ -3,7 +3,7 @@ const _toString = require('lodash.tostring')
 const cookie = require('cookie')
 const mime = require('mime')
 
-const corsHeader =  {
+const corsHeader = {
   'Access-Control-Allow-Origin': '*',
 }
 
