@@ -7,7 +7,6 @@
   "globals": {
     "JSON": false
   },
-  "parser": "babel-eslint",
   "plugins": [
     "mocha"
   ],
