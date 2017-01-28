@@ -92,6 +92,9 @@ module.exports.lambdaHandler = funciton(event, context, callback) {
   
   // Check the type
   req.is('html') // false
+  
+  // Get an AWS API Gateay requestContext property
+  req.context('requestId') // '08e3e2d0-daca-11e6-8d84-394b4374a71a'
 }
 ```
 

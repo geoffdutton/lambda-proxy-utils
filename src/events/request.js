@@ -92,6 +92,24 @@ class Request {
      * @type {string}
      */
     this.userAgent = _get(rawLambdaEvent, 'requestContext.identity.userAgent', '')
+
+    /**
+     * Raw API Gateway event
+     * @type {object}
+     */
+    this.rawLambdaEvent = rawLambdaEvent
+  }
+
+  /**
+   * Returns the field from the requestContext object from AWS API Gateway
+   *
+   * Returns undefined if nothing is found.
+   * The Referrer and Referer fields are interchangeable.
+   * @param {string} propertyPath
+   * @returns {string|object}
+   */
+  context (propertyPath) {
+    return _get(this.rawLambdaEvent, `requestContext.${propertyPath}`)
   }
 
   /**

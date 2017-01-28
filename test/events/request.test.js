@@ -260,5 +260,12 @@ describe('events', () => {
         })
       })
     })
+
+    describe('#context', () => {
+      it('should return a requestContext property', () => {
+        const req = new Request(lambdaEvent)
+        expect(req.context('requestId')).to.eq('08e3e2d0-daca-11e6-8d84-394b4374a71a')
+      })
+    })
   })
 })
