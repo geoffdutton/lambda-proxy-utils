@@ -66,7 +66,7 @@ class Request {
      * Contains the path part of the request URL.
      * @type {string}
      */
-    this.path = _get(rawLambdaEvent, 'path', '')
+    this.path = _get(rawLambdaEvent, 'path') || ''
 
     /**
      * A Boolean property that is true if the request’s X-Requested-With header field is “XMLHttpRequest”,
@@ -79,7 +79,7 @@ class Request {
      * Contains a string corresponding to the HTTP method of the request: GET, POST, PUT, and so on.
      * @type {string}
      */
-    this.method = _get(rawLambdaEvent, 'httpMethod', 'GET').toUpperCase()
+    this.method = _toString(_get(rawLambdaEvent, 'httpMethod')).toUpperCase() || 'GET'
 
     /**
      * Parsed referring including parsed query
