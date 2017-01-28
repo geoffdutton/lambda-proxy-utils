@@ -46,7 +46,7 @@ class Request {
      * sourceIp
      * @type {string}
      */
-    this.ip = _get(rawLambdaEvent, 'requestContext.identity.sourceIp', '')
+    this.ip = _get(rawLambdaEvent, 'requestContext.identity.sourceIp') || ''
 
     /**
      * This property is an object containing properties mapped to the named route “parameters”. For example,
@@ -54,13 +54,13 @@ class Request {
      * This object defaults to {}.
      * @type {{}}
      */
-    this.params = _get(rawLambdaEvent, 'pathParameters', {})
+    this.params = _get(rawLambdaEvent, 'pathParameters') || {}
 
     /**
      * Passed query string parameters. Defaults to {}.
      * @type {{}}
      */
-    this.query = _get(rawLambdaEvent, 'queryStringParameters', {})
+    this.query = _get(rawLambdaEvent, 'queryStringParameters') || {}
 
     /**
      * Contains the path part of the request URL.
@@ -91,7 +91,7 @@ class Request {
      * User agent passed from API Gateway
      * @type {string}
      */
-    this.userAgent = _get(rawLambdaEvent, 'requestContext.identity.userAgent', '')
+    this.userAgent = _get(rawLambdaEvent, 'requestContext.identity.userAgent') || ''
 
     /**
      * Raw API Gateway event
@@ -267,7 +267,7 @@ class Request {
    * @param lambdaEvent
    */
   static parseBody (lambdaEvent) {
-    const bodyString = _get(lambdaEvent, 'body', '')
+    const bodyString = _get(lambdaEvent, 'body') || ''
     if (typeof bodyString === 'object') {
       return bodyString
     }

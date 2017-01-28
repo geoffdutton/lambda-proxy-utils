@@ -78,6 +78,18 @@ describe('events', () => {
         })
       })
 
+      it('should set query to empty object if null', () => {
+        lambdaEvent.queryStringParameters = null
+        const req = new Request(lambdaEvent)
+        expect(req.query).to.eql({})
+      })
+
+      it('should set param to empty object if null', () => {
+        lambdaEvent.pathParameters = null
+        const req = new Request(lambdaEvent)
+        expect(req.params).to.eql({})
+      })
+
       it('should parse referrer url', () => {
         const req = new Request(lambdaEvent)
         expect(req.referrer).to.eql(urlParse('https://cheekyroad.com/paht/?cool=true', true))
