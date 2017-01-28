@@ -26,7 +26,7 @@ class Request {
     /**
      * JSON body or null
      * @TODO Support all content types for body
-     * @type {null|{}}
+     * @type {null|{}|string}
      */
     this.body = Request.parseBody(rawLambdaEvent)
 
@@ -267,12 +267,12 @@ class Request {
    * @param lambdaEvent
    */
   static parseBody (lambdaEvent) {
-    const bodyString = _get(lambdaEvent, 'body') || ''
-    if (typeof bodyString === 'object') {
+    const bodyString = _get(lambdaEvent, 'body') || null
+    if (bodyString && typeof bodyString === 'object') {
       return bodyString
     }
 
-    let body = null
+    let body = bodyString
     if (typeof bodyString === 'string') {
       try {
         body = JSON.parse(bodyString)

@@ -118,6 +118,15 @@ describe('events', () => {
       })
     })
 
+    context('with string body', () => {
+      it('should leave as string if not JSON', () => {
+        const body = '<some xml=true></some>'
+        lambdaEvent.body = body
+        const req = new Request(lambdaEvent)
+        expect(req.body).to.eql(body)
+      })
+    })
+
     describe('#get', () => {
       it('should return undefined', () => {
         const req = new Request(lambdaEvent)
