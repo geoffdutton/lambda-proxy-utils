@@ -12,6 +12,11 @@
       "from": "cookie@>=0.3.1 <0.4.0",
       "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.3.1.tgz"
     },
+    "header-case-normalizer": {
+      "version": "1.0.3",
+      "from": "header-case-normalizer@latest",
+      "resolved": "https://registry.npmjs.org/header-case-normalizer/-/header-case-normalizer-1.0.3.tgz"
+    },
     "lodash.clonedeep": {
       "version": "4.5.0",
       "from": "lodash.clonedeep@>=4.5.0 <5.0.0",

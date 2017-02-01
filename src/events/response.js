@@ -1,7 +1,9 @@
 'use strict'
 const _toString = require('lodash.tostring')
+const _transform = require('lodash.transform')
 const cookie = require('cookie')
 const mime = require('mime')
+const normalizeHeader = require('header-case-normalizer')
 
 const corsHeader = {
   'Access-Control-Allow-Origin': '*',
@@ -42,17 +44,10 @@ class Response {
     this.body = ''
 
     /**
-     * Map of headers to include with the request
+     * Map of lowercase headers to include with the request
      * @type {{}}
      */
     this.headers = {}
-
-    /**
-     * Map of headers with lowercase keys
-     * @type {{}}
-     * @private
-     */
-    this._headers = {}
 
     if (typeof opts.headers === 'object') {
       for (const key in opts.headers) {
@@ -124,7 +119,9 @@ class Response {
 
     const res = {
       statusCode: this.statusCode,
-      headers: this.headers,
+      headers: _transform(this.headers, (result, val, key) => {
+        result[normalizeHeader(key)] = val
+      }),
       body: body,
     }
 
@@ -199,7 +196,7 @@ class Response {
    * @public
    */
   get (field) {
-    return this._headers[field.toLowerCase()]
+    return this.headers[field.toLowerCase()]
   }
 
   /**
@@ -225,8 +222,7 @@ class Response {
         ? val.map(_toString)
         : _toString(val)
 
-      this.headers[field] = value
-      this._headers[field.toLowerCase()] = value
+      this.headers[field.toLowerCase()] = value
     } else {
       for (const key in field) {
         this.set(key, field[key])
