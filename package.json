@@ -54,7 +54,6 @@
     "publish-please": "^2.2.0"
   },
   "files": [
-    "src",
-    "package-lockjson"
+    "src"
   ]
 }
