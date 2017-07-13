@@ -55,6 +55,6 @@
   },
   "files": [
     "src",
-    "npm-shrinkwrap.json"
+    "package-lockjson"
   ]
 }
