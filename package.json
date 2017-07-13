@@ -24,6 +24,7 @@
     "coverage": "rm -rf ./coverage && istanbul cover _mocha -- --colors --reporter spec --recursive test/",
     "lint": "eslint .",
     "test": "istanbul cover _mocha --report lcovonly -- --colors --reporter spec --recursive test/",
+    "tdd": "_mocha --watch --colors --reporter spec --recursive test/",
     "publish-please": "publish-please && git push origin master --tags",
     "prepublish": "publish-please guard"
   },

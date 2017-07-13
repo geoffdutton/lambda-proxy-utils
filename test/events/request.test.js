@@ -64,6 +64,10 @@ describe('events', () => {
         })
       })
 
+      it('cookies should always be an object', () => {
+        expect(Request.parseCookies(null)).to.eql({})
+      })
+
       it('should parse path params', () => {
         const req = new Request(lambdaEvent)
         expect(req.params).to.eql({
@@ -124,6 +128,14 @@ describe('events', () => {
         lambdaEvent.body = body
         const req = new Request(lambdaEvent)
         expect(req.body).to.eql(body)
+      })
+    })
+
+    context('with JSON serialization of Reqest instance', () => {
+      it('should restore to eql objects', () => {
+        const req = new Request(JSON.parse(JSON.stringify(lambdaEvent)))
+        const req2 = new Request(JSON.parse(JSON.stringify(req)))
+        expect(req).to.deep.equal(req2)
       })
     })
 

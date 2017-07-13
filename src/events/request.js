@@ -24,29 +24,39 @@ class Request {
    */
   constructor (rawLambdaEvent) {
     /**
+     * This basically means it's a serialized version of a
+     * Request instance, unelss it's JSON that has the key
+     * 'rawLambdaEvent'
+     */
+    const isSerialized = _has(rawLambdaEvent, 'rawLambdaEvent')
+    const _sget = (path) => {
+      return isSerialized ? _get(rawLambdaEvent, path) : null
+    }
+
+    /**
      * JSON body or null
      * @TODO Support all content types for body
      * @type {null|{}|string}
      */
-    this.body = Request.parseBody(rawLambdaEvent)
+    this.body = _sget('body') || Request.parseBody(rawLambdaEvent)
 
     /**
      * Parsed and normalized headers
      * @type {{}}
      */
-    this.headers = Request.parseHeaders(rawLambdaEvent)
+    this.headers = _sget('headers') || Request.parseHeaders(rawLambdaEvent)
 
     /**
      * Parsed cookies or empty object
      * @type {{}}
      */
-    this.cookies = Request.parseCookies(this.headers.cookie)
+    this.cookies = _sget('cookies') || Request.parseCookies(this.headers.cookie)
 
     /**
      * sourceIp
      * @type {string}
      */
-    this.ip = _get(rawLambdaEvent, 'requestContext.identity.sourceIp') || ''
+    this.ip = _sget('ip') || _get(rawLambdaEvent, 'requestContext.identity.sourceIp') || ''
 
     /**
      * This property is an object containing properties mapped to the named route “parameters”. For example,
@@ -54,19 +64,19 @@ class Request {
      * This object defaults to {}.
      * @type {{}}
      */
-    this.params = _get(rawLambdaEvent, 'pathParameters') || {}
+    this.params = _sget('params') || _get(rawLambdaEvent, 'pathParameters') || {}
 
     /**
      * Passed query string parameters. Defaults to {}.
      * @type {{}}
      */
-    this.query = _get(rawLambdaEvent, 'queryStringParameters') || {}
+    this.query = _sget('query') || _get(rawLambdaEvent, 'queryStringParameters') || {}
 
     /**
      * Contains the path part of the request URL.
      * @type {string}
      */
-    this.path = _get(rawLambdaEvent, 'path') || ''
+    this.path = _sget('path') || _get(rawLambdaEvent, 'path') || ''
 
     /**
      * A Boolean property that is true if the request’s X-Requested-With header field is “XMLHttpRequest”,
@@ -79,7 +89,8 @@ class Request {
      * Contains a string corresponding to the HTTP method of the request: GET, POST, PUT, and so on.
      * @type {string}
      */
-    this.method = _toString(_get(rawLambdaEvent, 'httpMethod')).toUpperCase() || 'GET'
+    this.method = _sget('method') ||
+      _toString(_get(rawLambdaEvent, 'httpMethod')).toUpperCase() || 'GET'
 
     /**
      * Parsed referring including parsed query
@@ -91,13 +102,14 @@ class Request {
      * User agent passed from API Gateway
      * @type {string}
      */
-    this.userAgent = _get(rawLambdaEvent, 'requestContext.identity.userAgent') || ''
+    this.userAgent = _sget('userAgent') ||
+      _get(rawLambdaEvent, 'requestContext.identity.userAgent') || ''
 
     /**
      * Raw API Gateway event
      * @type {object}
      */
-    this.rawLambdaEvent = rawLambdaEvent
+    this.rawLambdaEvent = _sget('rawLambdaEvent') || rawLambdaEvent
   }
 
   /**
