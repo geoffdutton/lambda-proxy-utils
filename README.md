@@ -12,6 +12,26 @@ Lambda event helpers for AWS API Gateway lambda-proxy integration
 npm install --save lambda-proxy-utils
 ```
 
+## Update for version 1.4.0
+AWS Lambda doesn't allow arrays for headers, so this is the hack way of returning multiple cookies per this thread:
+https://forums.aws.amazon.com/thread.jspa?threadID=205782
+
+Basically you need to set multiple varations of `Set-Cookie` on the headers response object passed to the lambda callback like:
+```javascript
+const response = {
+  body: 'something',
+  headers: {
+    'Content-Type': 'text/plain',
+    'Set-Cookie': 'some=cookie; Path=/',
+    'Set-cookie': 'another=cookie; Path=/',
+    'SEt-cookie': 'and_another=cookie; Path=/',
+  },
+  statusCode: 200
+}
+```
+
+Using [binary-case](https://www.npmjs.com/package/binary-case), we can generate 512 variations of `Set-Cookie`, so there's a hard limit, but hopefully you aren't setting 512 cookies.
+
 ## Request
 Takes an [API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-set-up-lambda-proxy-integration-on-proxy-resource) lambda proxy integration event and returns an object that is similar to an express.js Request object.
 ```javascript

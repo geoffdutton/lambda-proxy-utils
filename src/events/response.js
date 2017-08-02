@@ -1,10 +1,11 @@
 'use strict'
 const _toString = require('lodash.tostring')
-const _transform = require('lodash.transform')
 const cookie = require('cookie')
 const mime = require('mime')
 const normalizeHeader = require('header-case-normalizer')
+const binaryCase = require('binary-case')
 
+const SET_COOKIE = 'Set-Cookie'
 const corsHeader = {
   'Access-Control-Allow-Origin': '*',
 }
@@ -119,15 +120,32 @@ class Response {
 
     const res = {
       statusCode: this.statusCode,
-      headers: _transform(this.headers, (result, val, key) => {
-        result[normalizeHeader(key)] = val
-      }),
+      headers: Object.keys(this.headers).reduce((result, key) => {
+        result[normalizeHeader(key)] = this.headers[key]
+        return result
+      }, {}),
       body: body,
     }
 
     if (this.isBase64Encoded) {
       res.isBase64Encoded = true
     }
+
+    // AWS Lambda doesn't allow arrays for headers, so this is the hack way of
+    // returning multiple cookies per this thread:
+    // https://forums.aws.amazon.com/thread.jspa?threadID=205782
+    if (res.headers.hasOwnProperty(SET_COOKIE) && Array.isArray(res.headers[SET_COOKIE])) {
+      const allCookes = res.headers['Set-Cookie']
+      res.headers[SET_COOKIE] = allCookes.shift()
+      for (let i = 0; i < allCookes.length; i++) {
+        const setCookieCase = binaryCase(SET_COOKIE, i + 1, { allowOverflow: false })
+        if (!setCookieCase) {
+          return res
+        }
+        res.headers[setCookieCase] = allCookes[i]
+      }
+    }
+
     return res
   }
 

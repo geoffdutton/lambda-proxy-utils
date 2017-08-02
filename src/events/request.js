@@ -1,6 +1,5 @@
 'use strict'
 const _get = require('lodash.get')
-const _transform = require('lodash.transform')
 const _has = require('lodash.has')
 const typeis = require('type-is').is
 const urlParse = require('url-parse')
@@ -252,16 +251,15 @@ class Request {
    * @param lambdaEvent
    */
   static parseHeaders (lambdaEvent) {
-    return _has(lambdaEvent, 'headers')
-      ? _transform(lambdaEvent.headers, (result, val, key) => {
-        key = key.toLowerCase()
-        result[key] = val
-        // set 'referrer' too because the internet can't decide
-        if (key === 'referer') {
-          result['referrer'] = val
-        }
-      })
-      : {}
+    const headers = _get(lambdaEvent, 'headers')
+    return headers ? Object.keys(headers).reduce((result, key) => {
+      result[key.toLowerCase()] = headers[key]
+      // set 'referrer' too because the internet can't decide
+      if (key.toLowerCase() === 'referer') {
+        result['referrer'] = headers[key]
+      }
+      return result
+    }, {}) : {}
   }
 
   /**
@@ -269,9 +267,11 @@ class Request {
    * @param cookieString
    */
   static parseCookies (cookieString) {
-    return _transform(cookie.parse(_toString(cookieString)), (result, val, key) => {
-      result[key.toLowerCase()] = Request.valueFilter(val)
-    }) || {}
+    const parsedCookie = cookie.parse(_toString(cookieString))
+    return Object.keys(parsedCookie).reduce((result, key) => {
+      result[key.toLowerCase()] = Request.valueFilter(parsedCookie[key])
+      return result
+    }, {})
   }
 
   /**

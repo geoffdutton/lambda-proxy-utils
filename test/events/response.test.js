@@ -1,4 +1,5 @@
 'use strict'
+const binaryCase = require('binary-case')
 const expect = require('chai').expect
 const Response = require('../../src/events/response')
 
@@ -65,6 +66,15 @@ describe('events', () => {
         const res = new Response()
         res.append('X-Blah', 'meh')
           .append('X-Blah', 200)
+          .append('X-Blah', 'another')
+
+        expect(res.headers['x-blah']).to.eql(['meh', '200', 'another'])
+      })
+
+      it('should convert previous value to an array if array is passed', () => {
+        const res = new Response()
+        res.set('X-Blah', 'meh')
+          .append('X-Blah', [200])
 
         expect(res.headers['x-blah']).to.eql(['meh', '200'])
       })
@@ -110,6 +120,12 @@ describe('events', () => {
         const res = new Response()
         res.cookie('some', 'value')
         expect(res.headers['set-cookie']).to.eql('some=value; Path=/')
+      })
+
+      it('should accept path as an options', () => {
+        const res = new Response()
+        res.cookie('some', 'value', { path: '/somepath' })
+        expect(res.headers['set-cookie']).to.eql('some=value; Path=/somepath')
       })
 
       it('should be chainable', () => {
@@ -198,8 +214,17 @@ describe('events', () => {
           })
         })
 
-        // @TODO: Is this necessary??
-        it('should return empty string if null', () => {
+        it('should return empty string if null with content-type text/plain', () => {
+          const res = new Response()
+          res.set('Content-Type', 'text/html')
+          expect(res.send(null)).to.eql({
+            statusCode: 200,
+            headers: { 'Content-Type': 'text/html' },
+            body: '',
+          })
+        })
+
+        it('should return empty string if null with set content-type', () => {
           const res = new Response()
           expect(res.send(null)).to.eql({
             statusCode: 200,
@@ -233,6 +258,38 @@ describe('events', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ some: 'object' }),
           })
+        })
+      })
+
+      context('with cookies', () => {
+        it('should return variations of Set-Cookie if more than 1 cookie', () => {
+          const res = new Response()
+          res.cookie('some', 'value')
+            .cookie('another', 'value')
+
+          const sent = res.send()
+          expect(sent.headers['Set-Cookie']).to.be.a('string')
+          expect(sent.headers['set-Cookie']).to.be.a('string')
+        })
+
+        it('should accept up to 512 cookies', () => {
+          const res = new Response()
+          for (let i = 0; i < 514; i++) {
+            res.cookie(`some_${i}`, `value_${i}`)
+          }
+
+          const sent = res.send()
+          for (let i = 0; i < 512; i++) {
+            const setCookieCase = binaryCase('Set-Cookie', i, {
+              allowOverflow: false,
+            })
+
+            if (i < 512) {
+              expect(sent.headers[setCookieCase]).to.be.a('string')
+            } else {
+              expect(sent.headers[setCookieCase]).not.to.exist()
+            }
+          }
         })
       })
     })
