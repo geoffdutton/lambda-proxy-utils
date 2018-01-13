@@ -307,7 +307,7 @@ class Response {
    */
   contentType (type) {
     const ct = type.indexOf('/') === -1
-      ? mime.lookup(type)
+      ? mime.getType(type)
       : type
 
     return this.set('Content-Type', ct)
