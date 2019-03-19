@@ -24,7 +24,7 @@ class Request {
   constructor (rawLambdaEvent) {
     /**
      * This basically means it's a serialized version of a
-     * Request instance, unelss it's JSON that has the key
+     * Request instance, unless it's JSON that has the key
      * 'rawLambdaEvent'
      */
     const isSerialized = _has(rawLambdaEvent, 'rawLambdaEvent')
