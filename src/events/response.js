@@ -7,7 +7,7 @@ const binaryCase = require('binary-case')
 
 const SET_COOKIE = 'Set-Cookie'
 const corsHeader = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': '*'
 }
 
 /**
@@ -124,7 +124,7 @@ class Response {
         result[normalizeHeader(key)] = this.headers[key]
         return result
       }, {}),
-      body: body,
+      body: body
     }
 
     if (this.isBase64Encoded) {
