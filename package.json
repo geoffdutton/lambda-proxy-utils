@@ -10,7 +10,7 @@
     "lambda proxy"
   ],
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "license": "MIT",
   "repository": {
