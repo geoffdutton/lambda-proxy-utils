@@ -9,5 +9,7 @@
   },
   "confirm": true,
   "publishTag": "latest",
-  "prePublishScript": "npm shrinkwrap && npm run lint && npm test"
+  "prePublishScript": false,
+  "publishCommand": "npm publish",
+  "postPublishScript": false
 }
