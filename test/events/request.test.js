@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-expressions */
+
 'use strict'
 const expect = require('chai').expect
 const Request = require('../../src/events/request')
 const GET = require('./test_events').GET
-const urlParse = require('url-parse')
+const urlParse = require('url').parse
 
 describe('events', () => {
   describe('Request', () => {
@@ -51,7 +53,7 @@ describe('events', () => {
           'x-amz-cf-id': '2b2b2b2b2==',
           'x-forwarded-for': '111.111.111.111, 222.222.222.222',
           'x-forwarded-port': '443',
-          'x-forwarded-proto': 'https',
+          'x-forwarded-proto': 'https'
         })
       })
 
@@ -60,7 +62,7 @@ describe('events', () => {
         expect(req.cookies).to.eql({
           some: 'thing',
           testbool: false,
-          testnull: null,
+          testnull: null
         })
       })
 
@@ -71,14 +73,14 @@ describe('events', () => {
       it('should parse path params', () => {
         const req = new Request(lambdaEvent)
         expect(req.params).to.eql({
-          pathParam: 'hooray',
+          pathParam: 'hooray'
         })
       })
 
       it('should parse query params', () => {
         const req = new Request(lambdaEvent)
         expect(req.query).to.eql({
-          et: 'something',
+          et: 'something'
         })
       })
 

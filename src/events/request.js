@@ -2,7 +2,7 @@
 const _get = require('lodash.get')
 const _has = require('lodash.has')
 const typeis = require('type-is').is
-const urlParse = require('url-parse')
+const urlParse = require('url').parse
 const _toString = require('lodash.tostring')
 const cookie = require('cookie')
 const accepts = require('accepts')
@@ -24,7 +24,7 @@ class Request {
   constructor (rawLambdaEvent) {
     /**
      * This basically means it's a serialized version of a
-     * Request instance, unelss it's JSON that has the key
+     * Request instance, unless it's JSON that has the key
      * 'rawLambdaEvent'
      */
     const isSerialized = _has(rawLambdaEvent, 'rawLambdaEvent')

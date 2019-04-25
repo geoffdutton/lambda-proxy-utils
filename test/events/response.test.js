@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 'use strict'
 const binaryCase = require('binary-case')
 const expect = require('chai').expect
@@ -29,7 +31,7 @@ describe('events', () => {
         const res = new Response()
         res.set({
           'X-Limit': 200,
-          'X-Blah': 'meh',
+          'X-Blah': 'meh'
         })
         expect(res.headers['x-limit']).to.eq('200')
         expect(res.headers['x-blah']).to.eq('meh')
@@ -38,7 +40,7 @@ describe('events', () => {
       it('should be chainable', () => {
         const res = new Response()
         res.set({
-          'X-Blah': 'meh',
+          'X-Blah': 'meh'
         })
           .set('X-Limit', 200)
 
@@ -161,18 +163,18 @@ describe('events', () => {
         expect(res.send('blah')).to.eql({
           statusCode: 200,
           headers: { 'Content-Type': 'text/plain' },
-          body: 'blah',
+          body: 'blah'
         })
       })
 
       it('should return normalized headers', () => {
         const res = new Response({
-          headers: { 'X-Some-Header': 'some-val' },
+          headers: { 'X-Some-Header': 'some-val' }
         })
         expect(res.send('blah')).to.eql({
           statusCode: 200,
           headers: { 'Content-Type': 'text/plain', 'X-Some-Header': 'some-val' },
-          body: 'blah',
+          body: 'blah'
         })
       })
 
@@ -182,7 +184,7 @@ describe('events', () => {
         expect(res.send('blah')).to.eql({
           statusCode: 200,
           headers: { 'Content-Type': 'text/html' },
-          body: 'blah',
+          body: 'blah'
         })
       })
 
@@ -190,17 +192,17 @@ describe('events', () => {
         const base64EmptyGif = 'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
         const res = new Response({
           headers: {
-            'Content-Type': 'image/gif',
+            'Content-Type': 'image/gif'
           },
-          isBase64Encoded: true,
+          isBase64Encoded: true
         })
         expect(res.send(base64EmptyGif)).to.eql({
           statusCode: 200,
           headers: {
-            'Content-Type': 'image/gif',
+            'Content-Type': 'image/gif'
           },
           body: base64EmptyGif,
-          isBase64Encoded: true,
+          isBase64Encoded: true
         })
       })
 
@@ -210,7 +212,7 @@ describe('events', () => {
           expect(res.send()).to.eql({
             statusCode: 200,
             headers: { 'Content-Type': 'text/plain' },
-            body: '',
+            body: ''
           })
         })
 
@@ -220,7 +222,7 @@ describe('events', () => {
           expect(res.send(null)).to.eql({
             statusCode: 200,
             headers: { 'Content-Type': 'text/html' },
-            body: '',
+            body: ''
           })
         })
 
@@ -229,7 +231,7 @@ describe('events', () => {
           expect(res.send(null)).to.eql({
             statusCode: 200,
             headers: { 'Content-Type': 'text/plain' },
-            body: '',
+            body: ''
           })
         })
 
@@ -238,7 +240,7 @@ describe('events', () => {
           expect(res.send(false)).to.eql({
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(false),
+            body: JSON.stringify(false)
           })
         })
 
@@ -247,7 +249,7 @@ describe('events', () => {
           expect(res.send(6000)).to.eql({
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(6000),
+            body: JSON.stringify(6000)
           })
         })
 
@@ -256,7 +258,7 @@ describe('events', () => {
           expect(res.send({ some: 'object' })).to.eql({
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ some: 'object' }),
+            body: JSON.stringify({ some: 'object' })
           })
         })
       })
@@ -281,7 +283,7 @@ describe('events', () => {
           const sent = res.send()
           for (let i = 0; i < 512; i++) {
             const setCookieCase = binaryCase('Set-Cookie', i, {
-              allowOverflow: false,
+              allowOverflow: false
             })
 
             if (i < 512) {
@@ -300,9 +302,9 @@ describe('events', () => {
         expect(res.json({ blah: 'meh' })).to.eql({
           statusCode: 200,
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ blah: 'meh' }),
+          body: JSON.stringify({ blah: 'meh' })
         })
       })
     })
@@ -310,14 +312,14 @@ describe('events', () => {
     describe('constructor options', () => {
       it('should set status code', () => {
         const res = new Response({
-          statusCode: 304,
+          statusCode: 304
         })
         expect(res.statusCode).to.eq(304)
       })
 
       it('should set headers', () => {
         const res = new Response({
-          headers: { 'X-Some': 'Thing' },
+          headers: { 'X-Some': 'Thing' }
         })
         expect(res.headers['x-some']).to.eq('Thing')
         res.set('Blah', '1')
@@ -326,7 +328,7 @@ describe('events', () => {
 
       it('should add CORS header if true', () => {
         const res = new Response({
-          cors: true,
+          cors: true
         })
         expect(res.headers['access-control-allow-origin']).to.eq('*')
       })

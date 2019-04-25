@@ -12,6 +12,9 @@ Lambda event helpers for AWS API Gateway lambda-proxy integration
 npm install --save lambda-proxy-utils
 ```
 
+## Update for version 2+
+Node 4 is unsupported.
+
 ## Update for version 1.4.0
 AWS Lambda doesn't allow arrays for headers, so this is the hack way of returning multiple cookies per this thread:
 https://forums.aws.amazon.com/thread.jspa?threadID=205782
