@@ -101,7 +101,7 @@ Takes an [API Gateway](http://docs.aws.amazon.com/apigateway/latest/developergui
 
 const Request = require('lambda-proxy-utils').Request
 
-module.exports.lambdaHandler = funciton(event, context, callback) {
+module.exports.lambdaHandler = function(event, context, callback) {
   const req = new Request(event)
   req.ip // '111.111.111.111'
   req.userAgent // 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'
@@ -126,7 +126,7 @@ Creates an express.js-like Response object, and outputs the API Gateway [respons
 ```javascript
 const Response = require('lambda-proxy-utils').Response
 
-module.exports.lambdaHandler = funciton(event, context, callback) {
+module.exports.lambdaHandler = function(event, context, callback) {
   const res = new Response()
   // stringifies objects and set correct content type header
   callback(null, res.send({ some: 'object' }))
