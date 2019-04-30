@@ -116,8 +116,11 @@ module.exports.lambdaHandler = function(event, context, callback) {
   // Check the type
   req.is('html') // false
   
-  // Get an AWS API Gateay requestContext property
+  // Get an AWS API Gateway requestContext property
   req.context('requestId') // '08e3e2d0-daca-11e6-8d84-394b4374a71a'
+  
+  // Get the unmodified Lambda Proxy event
+  req.getLambdaEvent()
 }
 ```
 
