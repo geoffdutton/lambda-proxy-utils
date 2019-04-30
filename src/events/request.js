@@ -104,6 +104,14 @@ class Request {
       }
     })
 
+    // Hack for .toString() since the native Url returns [Object object]
+    Object.defineProperty(this.referrer, 'toString', {
+      enumerable: false,
+      value () {
+        return this.href
+      }
+    })
+
     /**
      * User agent passed from API Gateway
      * @type {string}
