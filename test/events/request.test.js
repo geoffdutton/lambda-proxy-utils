@@ -99,6 +99,7 @@ describe('events', () => {
       it('should parse referrer url', () => {
         const req = new Request(lambdaEvent)
         expect(req.referrer).to.eql(urlParse('https://cheekyroad.com/paht/?cool=true', true))
+        expect(req.referrer.query.hasOwnProperty('cool')).to.be.true
       })
 
       it('should set other properties', () => {

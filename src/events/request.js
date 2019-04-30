@@ -96,6 +96,13 @@ class Request {
      * @type {Url}
      */
     this.referrer = urlParse(_toString(this.headers.referrer), true)
+    // Hack for .hasOwnProperty since the native Url parsing creates a null object
+    Object.defineProperty(this.referrer.query, 'hasOwnProperty', {
+      enumerable: false,
+      value (prop) {
+        return Object.prototype.hasOwnProperty.call(this, prop)
+      }
+    })
 
     /**
      * User agent passed from API Gateway
