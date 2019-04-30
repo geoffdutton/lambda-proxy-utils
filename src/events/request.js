@@ -172,6 +172,15 @@ class Request {
   }
 
   /**
+   * Returns the unmodified Lambda Proxy Event
+   *
+   * @returns {object} - Lambda event
+   */
+  getLambdaEvent () {
+    return this.rawLambdaEvent
+  }
+
+  /**
    * Returns true if the incoming request’s “Content-Type” HTTP header field matches the MIME type
    * specified by the type parameter. Returns false otherwise.
    *
