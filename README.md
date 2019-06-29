@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/geoffdutton/lambda-proxy-utils.svg?branch=master)](https://travis-ci.org/geoffdutton/lambda-proxy-utils)
 [![Coverage Status](https://coveralls.io/repos/github/geoffdutton/lambda-proxy-utils/badge.svg?branch=master)](https://coveralls.io/github/geoffdutton/lambda-proxy-utils?branch=master)
 [![Dependency Status](https://david-dm.org/geoffdutton/lambda-proxy-utils.svg)](https://david-dm.org/geoffdutton/lambda-proxy-utils/)
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/geoffdutton/lambda-proxy-utils.svg)](https://greenkeeper.io/)
 
 Lambda event helpers for AWS API Gateway lambda-proxy integration
 
