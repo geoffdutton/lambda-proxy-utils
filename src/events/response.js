@@ -51,9 +51,9 @@ class Response {
     this.headers = {}
 
     if (typeof opts.headers === 'object') {
-      for (const key in opts.headers) {
+      Object.keys(opts.headers).forEach(key => {
         this.set(key, opts.headers[key])
-      }
+      })
     }
 
     /**
@@ -134,7 +134,7 @@ class Response {
     // AWS Lambda doesn't allow arrays for headers, so this is the hack way of
     // returning multiple cookies per this thread:
     // https://forums.aws.amazon.com/thread.jspa?threadID=205782
-    if (res.headers.hasOwnProperty(SET_COOKIE) && Array.isArray(res.headers[SET_COOKIE])) {
+    if ({}.hasOwnProperty.call(res.headers, SET_COOKIE) && Array.isArray(res.headers[SET_COOKIE])) {
       const allCookes = res.headers['Set-Cookie']
       res.headers[SET_COOKIE] = allCookes.shift()
       for (let i = 0; i < allCookes.length; i++) {
@@ -236,15 +236,13 @@ class Response {
    */
   set (field, val) {
     if (arguments.length === 2) {
-      const value = Array.isArray(val)
+      this.headers[field.toLowerCase()] = Array.isArray(val)
         ? val.map(_toString)
         : _toString(val)
-
-      this.headers[field.toLowerCase()] = value
     } else {
-      for (const key in field) {
+      Object.keys(field).forEach(key => {
         this.set(key, field[key])
-      }
+      })
     }
     return this
   }

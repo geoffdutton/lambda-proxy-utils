@@ -4,7 +4,7 @@
 const expect = require('chai').expect
 const Request = require('../../src/events/request')
 const GET = require('./test_events').GET
-const urlParse = require('url').parse
+const urlParse = require('url').parse // eslint-disable-line node/no-deprecated-api
 
 describe('events', () => {
   describe('Request', () => {
@@ -33,7 +33,7 @@ describe('events', () => {
       it('should parse headers', () => {
         const req = new Request(lambdaEvent)
         expect(req.headers).to.eql({
-          'accept': '*/*',
+          accept: '*/*',
           'accept-encoding': 'gzip, deflate, sdch, br',
           'accept-language': 'en-US,en;q=0.8',
           'cache-control': 'no-cache',
@@ -43,13 +43,13 @@ describe('events', () => {
           'cloudfront-is-smarttv-viewer': 'false',
           'cloudfront-is-tablet-viewer': 'false',
           'cloudfront-viewer-country': 'US',
-          'cookie': 'some=thing; testbool=false; testnull=null',
-          'host': 'services.cheekyroad.com',
-          'pragma': 'no-cache',
-          'referer': 'https://cheekyroad.com/paht/?cool=true',
-          'referrer': 'https://cheekyroad.com/paht/?cool=true',
+          cookie: 'some=thing; testbool=false; testnull=null',
+          host: 'services.cheekyroad.com',
+          pragma: 'no-cache',
+          referer: 'https://cheekyroad.com/paht/?cool=true',
+          referrer: 'https://cheekyroad.com/paht/?cool=true',
           'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36', // eslint-disable-line max-len
-          'via': '1.1 1a1a1a1.cloudfront.net (CloudFront)',
+          via: '1.1 1a1a1a1.cloudfront.net (CloudFront)',
           'x-amz-cf-id': '2b2b2b2b2==',
           'x-forwarded-for': '111.111.111.111, 222.222.222.222',
           'x-forwarded-port': '443',
@@ -100,7 +100,9 @@ describe('events', () => {
         lambdaEvent.headers.Referer = 'https://cheekyroad.com/paht/?cool=true#somehash'
         const req = new Request(lambdaEvent)
         expect(req.referrer).to.eql(urlParse('https://cheekyroad.com/paht/?cool=true#somehash', true))
-        expect(req.referrer.query.hasOwnProperty('cool')).to.be.true
+        expect({}.hasOwnProperty.call(req.referrer.query, 'cool')).to.be.true
+        // It should allow accessing the native way
+        expect(req.referrer.query.hasOwnProperty('cool')).to.be.true // eslint-disable-line no-prototype-builtins
         expect(req.referrer.toString()).to.eq('https://cheekyroad.com/paht/?cool=true#somehash')
       })
 

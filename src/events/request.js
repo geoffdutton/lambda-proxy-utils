@@ -2,7 +2,7 @@
 const _get = require('lodash.get')
 const _has = require('lodash.has')
 const typeis = require('type-is').is
-const urlParse = require('url').parse
+const urlParse = require('url').parse // eslint-disable-line node/no-deprecated-api
 const _toString = require('lodash.tostring')
 const cookie = require('cookie')
 const accepts = require('accepts')
