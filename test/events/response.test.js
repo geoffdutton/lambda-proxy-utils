@@ -12,7 +12,7 @@ describe('events', () => {
         const res = new Response()
         expect(res.headers).to.eql({})
         res.set('Some', 'Header')
-        expect(res.headers['some']).to.eq('Header')
+        expect(res.headers.some).to.eq('Header')
       })
 
       it('should force a string', () => {
@@ -54,7 +54,7 @@ describe('events', () => {
         const res = new Response()
         expect(res.headers).to.eql({})
         res.append('Some', 'Header')
-        expect(res.headers['some']).to.eq('Header')
+        expect(res.headers.some).to.eq('Header')
       })
 
       it('should be overriden with set', () => {

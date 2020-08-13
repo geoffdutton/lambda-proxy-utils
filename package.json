@@ -10,7 +10,7 @@
     "lambda proxy"
   ],
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   },
   "license": "MIT",
   "repository": {
@@ -26,23 +26,23 @@
     "tdd": "mocha --watch --colors --reporter spec --recursive test/"
   },
   "dependencies": {
-    "accepts": "^1.3.5",
+    "accepts": "^1.3.7",
     "binary-case": "^1.1.4",
-    "cookie": "^0.4.0",
+    "cookie": "^0.4.1",
     "header-case-normalizer": "^1.0.3",
     "lodash.clonedeep": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
     "lodash.tostring": "^4.1.4",
-    "mime": "^2.4.0",
-    "type-is": "^1.6.16"
+    "mime": "^2.4.6",
+    "type-is": "^1.6.18"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "coveralls": "^3.0.6",
-    "mocha": "^6.1.4",
-    "nyc": "^14.0.0",
-    "standard": "^14.3.1"
+    "coveralls": "^3.1.0",
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0",
+    "standard": "^14.3.4"
   },
   "standard": {
     "env": {

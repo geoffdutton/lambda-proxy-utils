@@ -280,7 +280,7 @@ class Request {
       result[key.toLowerCase()] = headers[key]
       // set 'referrer' too because the internet can't decide
       if (key.toLowerCase() === 'referer') {
-        result['referrer'] = headers[key]
+        result.referrer = headers[key]
       }
       return result
     }, {}) : {}
