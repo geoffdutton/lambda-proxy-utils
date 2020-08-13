@@ -155,20 +155,20 @@ describe('events', () => {
       it('should get query param first', () => {
         lambdaEvent.queryStringParameters = { find: 'me1' }
         lambdaEvent.headers.Cookie = 'find=me2'
-        lambdaEvent.headers['Find'] = 'me3'
+        lambdaEvent.headers.Find = 'me3'
         const req = new Request(lambdaEvent)
         expect(req.get('find')).to.eq('me1')
       })
 
       it('should get cookie second', () => {
         lambdaEvent.headers.Cookie = 'find=me2'
-        lambdaEvent.headers['Find'] = 'me3'
+        lambdaEvent.headers.Find = 'me3'
         const req = new Request(lambdaEvent)
         expect(req.get('find')).to.eq('me2')
       })
 
       it('should get header third', () => {
-        lambdaEvent.headers['Find'] = 'me3'
+        lambdaEvent.headers.Find = 'me3'
         const req = new Request(lambdaEvent)
         expect(req.get('find')).to.eq('me3')
       })
@@ -194,7 +194,7 @@ describe('events', () => {
       })
 
       it('should be case-insensitive', () => {
-        lambdaEvent.headers['Find'] = 'me2'
+        lambdaEvent.headers.Find = 'me2'
         const req = new Request(lambdaEvent)
         expect(req.getHeader('fInd')).to.eq('me2')
       })
@@ -207,17 +207,17 @@ describe('events', () => {
       })
 
       it('should parse bools', () => {
-        lambdaEvent.queryStringParameters['success'] = 'true'
+        lambdaEvent.queryStringParameters.success = 'true'
         let req = new Request(lambdaEvent)
         expect(req.getQueryParam('success')).to.be.true
 
-        lambdaEvent.queryStringParameters['success'] = 'false'
+        lambdaEvent.queryStringParameters.success = 'false'
         req = new Request(lambdaEvent)
         expect(req.getQueryParam('success')).to.be.false
       })
 
       it('should parse null', () => {
-        lambdaEvent.queryStringParameters['success'] = 'null'
+        lambdaEvent.queryStringParameters.success = 'null'
         const req = new Request(lambdaEvent)
         expect(req.getQueryParam('success')).to.be.null
       })
@@ -235,13 +235,13 @@ describe('events', () => {
 
       it('should get cookie second', () => {
         lambdaEvent.headers.Cookie = 'find=me2'
-        lambdaEvent.headers['Find'] = 'me3'
+        lambdaEvent.headers.Find = 'me3'
         const req = new Request(lambdaEvent)
         expect(req.get('find')).to.eq('me2')
       })
 
       it('should get header third', () => {
-        lambdaEvent.headers['Find'] = 'me3'
+        lambdaEvent.headers.Find = 'me3'
         const req = new Request(lambdaEvent)
         expect(req.get('find')).to.eq('me3')
       })
