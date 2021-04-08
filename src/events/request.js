@@ -276,14 +276,16 @@ class Request {
    */
   static parseHeaders (lambdaEvent) {
     const headers = _get(lambdaEvent, 'headers')
-    return headers ? Object.keys(headers).reduce((result, key) => {
-      result[key.toLowerCase()] = headers[key]
-      // set 'referrer' too because the internet can't decide
-      if (key.toLowerCase() === 'referer') {
-        result.referrer = headers[key]
-      }
-      return result
-    }, {}) : {}
+    return headers
+      ? Object.keys(headers).reduce((result, key) => {
+          result[key.toLowerCase()] = headers[key]
+          // set 'referrer' too because the internet can't decide
+          if (key.toLowerCase() === 'referer') {
+            result.referrer = headers[key]
+          }
+          return result
+        }, {})
+      : {}
   }
 
   /**
