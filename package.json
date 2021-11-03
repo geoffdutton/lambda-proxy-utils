@@ -34,7 +34,7 @@
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
     "lodash.tostring": "^4.1.4",
-    "mime": "^2.5.2",
+    "mime": "^3.0.0",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
