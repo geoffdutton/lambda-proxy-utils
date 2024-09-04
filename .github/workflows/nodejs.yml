@@ -1,5 +1,5 @@
 name: Node CI
-on: [push, pull_request]
+on: [pull_request]
 env:
   CI: true
 
@@ -9,9 +9,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        node: [16, 18, 20, 22]
+        node: [18, 20, 22]
         os: [ubuntu-latest]
 
     steps:
@@ -31,7 +31,13 @@ jobs:
 
       - name: Run tests
         run: npm run test
-
+        
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.COVERALLS_TOKEN }}
+          flag-name: ${{matrix.os}}-node-${{ matrix.node }}
+          parallel: true
 
   finish:
     needs: test
